@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheet Sintaks Pandas & Python GroupBy</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #0f766e;
+    --accent-soft: #f0fdfa;
+    --border: #e2e8f0;
+    --code-bg: #0f172a;
+    --code-text: #f8fafc;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  header {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  header h1 {
+    font-size: 1.35rem;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  header p {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .code-banner {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.92rem;
+    overflow-x: auto;
+    margin-top: 12px;
+  }
+  .code-banner span.hl {
+    color: #5eead4;
+    font-weight: 600;
+  }
+  section.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  section.card h2 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  code {
+    background: #f1f5f9;
+    color: #0f766e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  ul, ol {
+    padding-left: 20px;
+    font-size: 0.92rem;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+  .flow-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-soft);
+    border: 1px dashed var(--accent);
+    padding: 14px;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+  }
+  .flow-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  .arrow {
+    color: var(--accent);
+    font-weight: bold;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Cheat Sheet: Anatomi Tanda & Logika Sintaks Pandas</h1>
+    <p>Panduan ringkas memahami tanda baca, urutan <em>method chaining</em>, dan fungsi agregasi pada Python.</p>
+    <div class="code-banner">
+      df<span class="hl">.</span>groupby<span class="hl">(</span>'petugas'<span class="hl">)[</span>'omzet_harian'<span class="hl">].</span>agg<span class="hl">(</span>q1<span class="hl">=</span>lambda x<span class="hl">:</span> np.percentile(x, 25)<span class="hl">)</span>
+    </div>
+  </header>
+
+  <!-- Bagian 1: Fungsi Tanda-Tanda -->
+  <section class="card">
+    <h2>1. Fungsi Tanda-Tanda pada Sintaks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 14%;">Tanda</th>
+          <th style="width: 24%;">Nama</th>
+          <th>Fungsi dalam Kode</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.</code></td>
+          <td><em>Dot Operator</em></td>
+          <td>Menyambungkan objek dengan perintah/fungsi miliknya (misal: <code>df</code> memanggil fungsi <code>.groupby()</code>).</td>
+        </tr>
+        <tr>
+          <td><code>(...)</code></td>
+          <td><em>Parentheses</em></td>
+          <td>Mengurung argumen atau parameter input yang dimasukkan ke dalam sebuah fungsi/perintah (kata kerja).</td>
+        </tr>
+        <tr>
+          <td><code>[...]</code></td>
+          <td><em>Square Brackets</em></td>
+          <td>Memilih, mengiris, atau mengakses nama kolom tertentu dari dalam sebuah DataFrame (<code>df['nama_kolom']</code>).</td>
+        </tr>
+        <tr>
+          <td><code>'...'</code></td>
+          <td><em>Single Quotes</em></td>
+          <td>Menandai bahwa teks di dalamnya adalah <strong>String</strong> (nama kolom atau nama fungsi bawaan Pandas), bukan variabel.</td>
+        </tr>
+        <tr>
+          <td><code>=</code></td>
+          <td><em>Assignment / Named Agg</em></td>
+          <td>Di dalam <code>.agg()</code> memberi nama kolom output (<code>nama_baru = 'fungsi'</code>). Di luar fungsi menyimpan hasil ke variabel.</td>
+        </tr>
+        <tr>
+          <td><code>:</code></td>
+          <td><em>Colon (Lambda)</em></td>
+          <td>Pemisah antara parameter input (<code>x</code>) dan rumus operasi (<code>np.percentile(...)</code>) pada fungsi anonim <code>lambda</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Bagian 2: Mengapa Lambda -->
+  <section class="card">
+    <h2>2. Mengapa <code>q1</code> dan <code>q3</code> Memakai <code>lambda x:</code>?</h2>
+    <ul>
+      <li><strong>Fungsi Bawaan Sederhana:</strong> Perintah seperti <code>'count'</code>, <code>'mean'</code>, <code>'median'</code>, dan <code>'std'</code> sudah dikenali langsung oleh Pandas cukup dengan menulis namanya di dalam tanda kutip.</li>
+      <li><strong>Fungsi Eksternal dengan Parameter:</strong> Fungsi kuartil dari NumPy (<code>np.percentile</code>) membutuhkan <strong>dua input</strong> (sekumpulan data dan angka persentil <code>25</code> atau <code>75</code>), sehingga tidak bisa ditulis hanya dengan teks kutip.</li>
+      <li><strong>Peran <code>lambda x:</code>:</strong> Bertindak sebagai fungsi sementara tanpa nama (<em>anonymous function</em>) yang menangkap deretan angka omzet milik tiap petugas sebagai <code>x</code>, lalu meneruskannya ke rumus <code>np.percentile(x, 25)</code>.</li>
+    </ul>
+  </section>
+
+  <!-- Bagian 3: Urutan & Perbedaan Tanda Kurung -->
+  <section class="card">
+    <h2>3. Grammar & Urutan <code>df.groupby('petugas')['omzet_harian'].agg(...)</code></h2>
+    <ol>
+      <li>
+        <strong>Kenapa <code>'petugas'</code> pakai <code>(...)</code> bukan <code>[...]</code>?</strong><br>
+        <code>.groupby()</code> adalah <strong>kata kerja</strong> (perintah), sehingga inputnya wajib masuk ke kurung fungsi <code>(...)</code>. Sebaliknya, <code>['omzet_harian']</code> hanya <strong>mengambil bagian</strong> (<em>selecting</em>), sehingga memakai kurung siku <code>[...]</code>.
+      </li>
+      <li>
+        <strong>Kenapa <code>'omzet_harian'</code> ditaruh di belakang <code>.groupby()</code>?</strong><br>
+        Data dikelompokkan dulu seluruhnya berdasarkan petugas, baru kemudian disaring hanya kolom targetnya saja agar kolom lain (seperti <code>id_usaha</code>) tidak ikut dihitung.
+      </li>
+      <li>
+        <strong>Kenapa <code>.agg()</code> ditaruh setelah <code>.groupby()</code>?</strong><br>
+        <code>.agg()</code> adalah perintah lanjutan yang membutuhkan kelompok terlebih dahulu. Output dari langkah sebelah kiri langsung menjadi input bagi langkah sebelah kanannya (<em>Method Chaining</em>).
+      </li>
+    </ol>
+
+    <div class="flow-box">
+      <div class="flow-step">[Tabel Utuh]</div>
+      <span class="arrow">&rarr;</span>
+      <div class="flow-step"><code>.groupby('petugas')</code></div>
+      <span class="arrow">&rarr;</span>
+      <div class="flow-step"><code>['omzet_harian']</code></div>
+      <span class="arrow">&rarr;</span>
+      <div class="flow-step"><code>.agg(...)</code></div>
+      <span class="arrow">&rarr;</span>
+      <div class="flow-step">[Tabel Ringkasan]</div>
+    </div>
+  </section>
+
+  <!-- Bagian 4: Cara Baca Singkat -->
+  <section class="card">
+    <h2>4. Cara Baca Sintaks dalam Bahasa Manusia</h2>
+    <p style="font-size: 0.95rem; background: var(--accent-soft); padding: 14px; border-radius: 8px; border-left: 4px solid var(--accent);">
+      <span class="badge"><code>df.groupby('petugas')</code></span>
+      "Dari tabel <strong>df</strong>, kelompokkan baris-baris datanya berdasarkan nilai yang sama di kolom <strong>'petugas'</strong>."
+    </p>
+  </section>
+</div>
+
+</body>
+</html>

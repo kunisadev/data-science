@@ -179,12 +179,12 @@
         <tr>
           <td><code>(...)</code></td>
           <td><em>Parentheses</em></td>
-          <td>Mengurung argumen atau parameter input yang dimasukkan ke dalam sebuah fungsi/perintah (kata kerja).</td>
+          <td>Mengurung argumen atau parameter input yang dimasukkan ke dalam sebuah fungsi/perintah (kata kerja). Hanya digunakan untuk menjalankan fungsi atau perintah seperti print(), .groupby(), dll.</td>
         </tr>
         <tr>
           <td><code>[...]</code></td>
           <td><em>Square Brackets</em></td>
-          <td>Memilih, mengiris, atau mengakses nama kolom tertentu dari dalam sebuah DataFrame (<code>df['nama_kolom']</code>).</td>
+          <td>Memilih, mengiris, atau mengakses nama kolom tertentu dari dalam sebuah DataFrame (<code>df['nama_kolom']</code>). Untuk mengambil isi dari objek penyimpanan data (baik itu list, disctionary maupun dataframe) wajib menggunakan tanda ini. untuk ambil 2 kolom (code)df[['petugas', 'omzet']](/code) .</td>
         </tr>
         <tr>
           <td><code>'...'</code></td>
@@ -255,6 +255,16 @@
     </p>
   </section>
 </div>
+
+  <!-- Bagian 5: Mengapa Lambda -->
+  <section class="card">
+    <h2>2. Mengapa <code>q1</code> dan <code>q3</code> Memakai <code>lambda x:</code>?</h2>
+    <ul>
+      <li><strong>Fungsi Bawaan Sederhana:</strong> Perintah seperti <code>'count'</code>, <code>'mean'</code>, <code>'median'</code>, dan <code>'std'</code> sudah dikenali langsung oleh Pandas cukup dengan menulis namanya di dalam tanda kutip.</li>
+      <li><strong>Fungsi Eksternal dengan Parameter:</strong> Fungsi kuartil dari NumPy (<code>np.percentile</code>) membutuhkan <strong>dua input</strong> (sekumpulan data dan angka persentil <code>25</code> atau <code>75</code>), sehingga tidak bisa ditulis hanya dengan teks kutip.</li>
+      <li><strong>Peran <code>lambda x:</code>:</strong> Bertindak sebagai fungsi sementara tanpa nama (<em>anonymous function</em>) yang menangkap deretan angka omzet milik tiap petugas sebagai <code>x</code>, lalu meneruskannya ke rumus <code>np.percentile(x, 25)</code>.</li>
+    </ul>
+  </section>
 
 </body>
 </html>

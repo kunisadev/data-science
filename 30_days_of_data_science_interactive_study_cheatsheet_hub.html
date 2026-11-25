@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Days of Data Science — Interactive Study Cheatsheet Hub</title>
+
+  <!-- Google Fonts: Lora (Editorial Serif), Inter (Clean UI), JetBrains Mono (Code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS: WARM MINIMAL EDITORIAL PALETTE
+       ========================================================================== */
+    :root {
+      --bg-cream: #FAF7F2;
+      --bg-cream-alt: #F3EDE2;
+      --surface-white: #FFFFFF;
+      --surface-code: #1F1C1A;
+      --text-primary: #241F1C;
+      --text-secondary: #564E48;
+      --text-muted: #887E75;
+
+      --accent-terracotta: #8B5A2B;
+      --accent-terracotta-hover: #704620;
+      --accent-terracotta-soft: #F6EDE4;
+
+      --accent-sage: #2E5A44;
+      --accent-sage-hover: #234634;
+      --accent-sage-soft: #E8F1EC;
+
+      --border-subtle: #E6DEC8;
+      --border-strong: #D3C7AE;
+
+      --shadow-card: 0 4px 20px -4px rgba(36, 31, 28, 0.05), 0 1px 3px rgba(36, 31, 28, 0.03);
+      --shadow-hover: 0 10px 28px -6px rgba(36, 31, 28, 0.09);
+
+      --font-serif: 'Lora', Georgia, Cambria, "Times New Roman", serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       APP SHELL & CONTAINER
+       ========================================================================== */
+    .app-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 5rem;
+    }
+
+    @media (min-width: 768px) {
+      .app-wrapper {
+        padding: 2.5rem 2rem 6rem;
+      }
+    }
+
+    /* ==========================================================================
+       HERO HEADER & PRIMARY TAB NAVIGATION (KURIKULUM -> 1/30 -> 2/30 ... 30/30)
+       ========================================================================== */
+    .hero-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.65rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-card {
+        padding: 2.15rem 2.4rem;
+      }
+    }
+
+    .hero-top {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      margin-bottom: 1.4rem;
+    }
+
+    @media (min-width: 820px) {
+      .hero-top {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-terracotta);
+      background: var(--accent-terracotta-soft);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3.1vw, 2.3rem);
+      font-weight: 700;
+      line-height: 1.22;
+      color: var(--text-primary);
+      letter-spacing: -0.015em;
+    }
+
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      margin-top: 0.45rem;
+      max-width: 630px;
+    }
+
+    /* Dual Stat Box (Hari + Sub-Kurikulum Checklist) */
+    .stats-cluster {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 1.05rem;
+      min-width: 155px;
+    }
+
+    .stat-value {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-sage);
+      line-height: 1.2;
+    }
+
+    .stat-value.terra {
+      color: var(--accent-terracotta);
+    }
+
+    .stat-label {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background: var(--bg-cream-alt);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-terracotta), var(--accent-sage));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* Tab Navigation Header & Legend */
+    .tab-nav-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.65rem;
+    }
+
+    .tab-legend {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 500;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Tab Bar Strip: Kurikulum First, then 1/30, 2/30 ... 30/30 */
+    .primary-tab-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tab-btn {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-cream);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+
+    /* Prominent Kurikulum Tab */
+    .tab-btn.tab-kurikulum {
+      background: var(--accent-terracotta-soft);
+      border-color: #DFC7AE;
+      color: var(--accent-terracotta);
+      font-weight: 700;
+      padding: 0.52rem 0.95rem;
+    }
+
+    .tab-btn.tab-kurikulum:hover {
+      border-color: var(--accent-terracotta);
+      background: #EFE0D1;
+    }
+
+    .tab-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.12rem 0.42rem;
+      border-radius: 5px;
+      background: rgba(139, 90, 43, 0.14);
+      color: var(--accent-terracotta);
+    }
+
+    /* Available Day Tab */
+    .tab-btn.tab-available {
+      font-family: var(--font-mono);
+      background: var(--accent-sage-soft);
+      border-color: #BDD5C8;
+      color: var(--accent-sage);
+      font-weight: 700;
+    }
+
+    .tab-btn.tab-available:hover {
+      border-color: var(--accent-sage);
+      background: #DCEAE3;
+    }
+
+    /* Active State for Selected Tab */
+    .tab-btn.is-active {
+      background: var(--accent-sage) !important;
+      border-color: var(--accent-sage) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 3px 10px rgba(46, 90, 68, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.tab-kurikulum.is-active {
+      background: var(--accent-terracotta) !important;
+      border-color: var(--accent-terracotta) !important;
+      box-shadow: 0 3px 10px rgba(139, 90, 43, 0.25);
+    }
+
+    .tab-btn.is-active .tab-badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    /* Upcoming / Muted Day Slots */
+    .tab-btn.tab-upcoming {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.46rem 0.62rem;
+      background: #F6F2EA;
+      color: var(--text-muted);
+      opacity: 0.72;
+    }
+
+    .tab-btn.tab-upcoming:hover {
+      opacity: 1;
+      border-color: var(--border-strong);
+      color: var(--text-secondary);
+    }
+
+    .tab-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border-strong);
+      margin: 0 0.2rem;
+    }
+
+    /* ==========================================================================
+       CONTROL BAR (SEARCH, EXPAND/COLLAPSE, EXPORT PDF)
+       ========================================================================== */
+    .control-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 860px) {
+      .control-bar {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.95rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.72rem 2.4rem 0.72rem 2.65rem;
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-terracotta);
+      box-shadow: 0 0 0 3px var(--accent-terracotta-soft);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--bg-cream-alt);
+      border: none;
+      color: var(--text-secondary);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.74rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .control-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn-ui {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      padding: 0.68rem 0.95rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      box-shadow: var(--shadow-card);
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-ui:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      background: var(--bg-cream);
+    }
+
+    .btn-ui.btn-sage {
+      background: var(--accent-sage);
+      border-color: var(--accent-sage);
+      color: #FFFFFF;
+    }
+
+    .btn-ui.btn-sage:hover {
+      background: var(--accent-sage-hover);
+      border-color: var(--accent-sage-hover);
+    }
+
+    .btn-ui.btn-terra {
+      background: var(--accent-terracotta);
+      border-color: var(--accent-terracotta);
+      color: #FFFFFF;
+    }
+
+    .btn-ui.btn-terra:hover {
+      background: var(--accent-terracotta-hover);
+      border-color: var(--accent-terracotta-hover);
+    }
+
+    .search-status-bar {
+      display: none;
+      background: var(--accent-terracotta-soft);
+      border: 1px solid #E2C8B0;
+      color: var(--accent-terracotta);
+      padding: 0.65rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* ==========================================================================
+       TAB PANELS (ONLY ACTIVE TAB IS DISPLAYED)
+       ========================================================================== */
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+      animation: fadeSlideIn 0.24s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       TAB 1: KURIKULUM KOMPREHENSIF (6 FASE & 20 SUB-KURIKULUM)
+       ========================================================================== */
+    .kurikulum-intro-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .kurikulum-intro-card {
+        padding: 2.1rem 2.4rem;
+      }
+    }
+
+    .section-top-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.1rem;
+    }
+
+    @media (min-width: 720px) {
+      .section-top-bar {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .panel-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.28;
+    }
+
+    .intro-lead {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Synthesis Framework Strip */
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 1.35rem;
+    }
+
+    @media (min-width: 640px) {
+      .framework-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 920px) {
+      .framework-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .fw-chip {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .fw-author {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      margin-bottom: 0.2rem;
+    }
+
+    .fw-book {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    /* Phase Filter Pills + Reset Checklist */
+    .phase-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1.15rem;
+      border-top: 1px dashed var(--border-strong);
+    }
+
+    .phase-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .phase-pill {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-cream);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .phase-pill:hover {
+      border-color: var(--accent-terracotta);
+      color: var(--accent-terracotta);
+    }
+
+    .phase-pill.is-active {
+      background: var(--accent-terracotta);
+      border-color: var(--accent-terracotta);
+      color: #FFFFFF;
+    }
+
+    /* Phase Accordion Cards */
+    .phases-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .phase-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .phase-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .phase-header {
+      width: 100%;
+      background: var(--surface-white);
+      border: none;
+      border-bottom: 1px solid transparent;
+      padding: 1.35rem 1.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .phase-card.is-open .phase-header {
+      border-bottom-color: var(--border-subtle);
+      background: linear-gradient(to bottom, #FFFFFF, #FCFBF8);
+    }
+
+    @media (min-width: 768px) {
+      .phase-header {
+        padding: 1.55rem 2.1rem;
+      }
+    }
+
+    .phase-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-number-pill {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background: var(--accent-sage);
+      color: #FFFFFF;
+    }
+
+    .phase-ref-tag {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      padding: 0.18rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .phase-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.15rem, 2.2vw, 1.42rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .chevron-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      transition: transform 0.25s ease, background-color 0.2s;
+    }
+
+    .phase-card.is-open .chevron-circle {
+      transform: rotate(180deg);
+      background: var(--accent-terracotta-soft);
+      color: var(--accent-terracotta);
+      border-color: #DFC7AE;
+    }
+
+    .phase-body {
+      display: none;
+      padding: 1.5rem 1.65rem 1.85rem;
+    }
+
+    .phase-card.is-open .phase-body {
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .phase-body {
+        padding: 1.75rem 2.1rem 2.1rem;
+      }
+    }
+
+    .phase-context-note {
+      background: var(--bg-cream);
+      border-left: 3px solid var(--accent-terracotta);
+      padding: 0.75rem 1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Sub-Curriculum Interactive Checklist Cards */
+    .sub-curricula-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .sub-item-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      background: #FFFFFF;
+      display: flex;
+      gap: 0.95rem;
+      align-items: flex-start;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .sub-item-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .sub-item-card.is-checked {
+      background: #F7FBF9;
+      border-color: #C3DCD0;
+    }
+
+    .sub-checkbox {
+      width: 20px;
+      height: 20px;
+      margin-top: 0.2rem;
+      accent-color: var(--accent-sage);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .sub-content {
+      flex: 1;
+    }
+
+    .sub-title-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: block;
+      margin-bottom: 0.45rem;
+    }
+
+    .sub-item-card.is-checked .sub-title-label {
+      color: var(--accent-sage);
+    }
+
+    .sub-bullets {
+      padding-left: 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.89rem;
+    }
+
+    .sub-bullets li + li {
+      margin-top: 0.35rem;
+    }
+
+    /* ==========================================================================
+       TAB 2: DAY 1/30 EDITORIAL CHEATSHEET STYLES
+       ========================================================================== */
+    .day-article-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .day-banner-header {
+      padding: 1.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(to bottom, #FFFFFF, #FCFBF8);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    @media (min-width: 768px) {
+      .day-banner-header {
+        padding: 2rem 2.4rem;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    .day-meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .day-pill {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.24rem 0.65rem;
+      border-radius: 6px;
+      background: var(--accent-terracotta);
+      color: #FFFFFF;
+    }
+
+    .topic-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-sage-soft);
+      color: var(--accent-sage);
+    }
+
+    .day-article-body {
+      padding: 1.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .day-article-body {
+        padding: 2.25rem 2.4rem;
+      }
+    }
+
+    .cheatsheet-section {
+      padding-bottom: 2.15rem;
+      margin-bottom: 2.15rem;
+      border-bottom: 1px dashed var(--border-strong);
+    }
+
+    .cheatsheet-section:last-of-type {
+      border-bottom: none;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .sec-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--accent-terracotta-soft);
+      color: var(--accent-terracotta);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sec-title {
+      font-family: var(--font-serif);
+      font-size: 1.28rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .sub-h {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 1.3rem 0 0.6rem;
+    }
+
+    code.inline-code {
+      font-family: var(--font-mono);
+      font-size: 0.84em;
+      background: var(--bg-cream-alt);
+      color: var(--accent-terracotta);
+      padding: 0.14rem 0.42rem;
+      border-radius: 5px;
+      border: 1px solid var(--border-subtle);
+      font-weight: 500;
+    }
+
+    /* Editorial Table */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin: 0.95rem 0 1.35rem;
+    }
+
+    table.editorial-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.89rem;
+    }
+
+    table.editorial-table th {
+      background: var(--bg-cream);
+      color: var(--text-primary);
+      font-weight: 700;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
+    }
+
+    table.editorial-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+      color: var(--text-secondary);
+    }
+
+    table.editorial-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .curve-pill {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.24rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .curve-sym { background: var(--accent-sage-soft); color: var(--accent-sage); }
+    .curve-right { background: var(--accent-terracotta-soft); color: var(--accent-terracotta); }
+    .curve-left { background: #EFEBF7; color: #5B468A; }
+
+    /* Grid Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.95rem;
+      margin: 0.95rem 0;
+    }
+
+    @media (min-width: 720px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .info-card {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.2rem;
+    }
+
+    .info-card.sage {
+      background: #F4F9F6;
+      border-color: #C4DBD0;
+    }
+
+    .info-card.terra {
+      background: #FBF6F1;
+      border-color: #E5CEB8;
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.18rem 0.55rem;
+      border-radius: 5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-sage { background: var(--accent-sage); color: #FFF; }
+    .badge-terra { background: var(--accent-terracotta); color: #FFF; }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .analogy-note {
+      background: var(--surface-white);
+      border-left: 3px solid var(--accent-terracotta);
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      margin-top: 0.85rem;
+    }
+
+    /* Interactive IQR Calculator Widget */
+    .calculator-box {
+      background: linear-gradient(145deg, #FAF7F2, #F2ECE0);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+      margin: 1.2rem 0;
+    }
+
+    .calc-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .calc-title {
+      font-family: var(--font-serif);
+      font-size: 1.06rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .calc-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 0.95rem;
+    }
+
+    @media (min-width: 640px) {
+      .calc-input-group {
+        flex-direction: row;
+      }
+    }
+
+    .calc-input {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.68rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--surface-white);
+      color: var(--text-primary);
+    }
+
+    .calc-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+    }
+
+    @media (min-width: 640px) {
+      .calc-metrics-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .metric-tile {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.7rem;
+      text-align: center;
+    }
+
+    .metric-tile-label {
+      font-size: 0.71rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .metric-tile-val {
+      font-family: var(--font-mono);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 0.15rem;
+    }
+
+    .metric-tile.highlight {
+      border-color: var(--accent-terracotta);
+      background: var(--accent-terracotta-soft);
+    }
+
+    .metric-tile.highlight .metric-tile-val {
+      color: var(--accent-terracotta);
+    }
+
+    .calc-result-banner {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* Roadmap Flow & Data Structures Grid */
+    .roadmap-flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      margin: 0.95rem 0 1.4rem;
+    }
+
+    @media (min-width: 768px) {
+      .roadmap-flow {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .stage-node {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stage-node.active-focus {
+      background: var(--accent-terracotta-soft);
+      border: 1.5px solid var(--accent-terracotta);
+    }
+
+    .stage-num {
+      font-family: var(--font-mono);
+      font-size: 0.71rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .stage-node.active-focus .stage-num {
+      color: var(--accent-terracotta);
+    }
+
+    .stage-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .stage-desc {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .focus-pill {
+      display: inline-block;
+      margin-top: 0.45rem;
+      font-size: 0.67rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: var(--accent-terracotta);
+      color: #FFF;
+      padding: 0.14rem 0.45rem;
+      border-radius: 4px;
+      width: fit-content;
+    }
+
+    .structures-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      margin: 0.95rem 0 1.4rem;
+    }
+
+    @media (min-width: 600px) {
+      .structures-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 900px) {
+      .structures-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .struct-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.05rem;
+    }
+
+    .struct-syntax {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent-sage);
+      background: var(--accent-sage-soft);
+      padding: 0.22rem 0.5rem;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 0.45rem;
+    }
+
+    .struct-name {
+      font-weight: 700;
+      font-size: 0.93rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .struct-desc {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.48;
+    }
+
+    /* Code Blocks */
+    .code-wrapper {
+      background: var(--surface-code);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 0.95rem 0 1.2rem;
+      border: 1px solid #35302D;
+    }
+
+    .code-header {
+      background: #2A2623;
+      padding: 0.52rem 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #3A3430;
+    }
+
+    .code-lang {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #C7BEB6;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #EAE4DE;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.28rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.18s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .copy-btn.copied {
+      background: var(--accent-sage);
+      border-color: var(--accent-sage);
+      color: #FFFFFF;
+    }
+
+    pre.code-pre {
+      padding: 1.05rem 1.2rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      line-height: 1.62;
+      color: #F2ECE6;
+      margin: 0;
+    }
+
+    .tok-kw { color: #E59872; font-weight: 500; }
+    .tok-fn { color: #8AC6B5; }
+    .tok-str { color: #D9C27E; }
+    .tok-num { color: #D49BAE; }
+    .tok-cm { color: #8B8178; font-style: italic; }
+
+    /* Callout Box */
+    .callout-box {
+      background: linear-gradient(to right, var(--accent-sage-soft), #F3F8F5);
+      border: 1px solid #C0D8CC;
+      border-left: 5px solid var(--accent-sage);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.45rem;
+      margin-top: 1.35rem;
+    }
+
+    .callout-title {
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #214533;
+      margin-bottom: 0.55rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .callout-list {
+      padding-left: 1.25rem;
+      color: #294B3A;
+      font-size: 0.91rem;
+    }
+
+    .callout-list li + li {
+      margin-top: 0.42rem;
+    }
+
+    /* Toast Notification */
+    .toast-banner {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--text-primary);
+      color: #FAF7F2;
+      padding: 0.85rem 1.2rem;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 500;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+      transform: translateY(130%);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 999;
+      max-width: 340px;
+      border-left: 4px solid var(--accent-terracotta);
+    }
+
+    .toast-banner.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .hub-footer {
+      text-align: center;
+      margin-top: 2.75rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.83rem;
+    }
+
+    /* ==========================================================================
+       PRINT / EXPORT PDF STYLESHEET (@media print)
+       ========================================================================== */
+    .print-doc-banner {
+      display: none;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm 14mm 15mm 14mm;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body {
+        background: #FFFFFF !important;
+        color: #1A1715 !important;
+        font-size: 10pt;
+        line-height: 1.52;
+      }
+
+      .app-wrapper {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Hide interactive web UI */
+      .hero-card,
+      .control-bar,
+      .search-status-bar,
+      .phase-filter-bar,
+      .chevron-circle,
+      .btn-ui,
+      .copy-btn,
+      .toast-banner,
+      .hub-footer,
+      .calc-input-group,
+      .calc-header button,
+      .calculator-box > p {
+        display: none !important;
+      }
+
+      .print-doc-banner {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #241F1C;
+        padding-bottom: 8pt;
+        margin-bottom: 14pt;
+      }
+
+      .print-doc-title {
+        font-family: var(--font-serif);
+        font-size: 13.5pt;
+        font-weight: 700;
+        color: #241F1C;
+      }
+
+      .print-doc-meta {
+        font-family: var(--font-mono);
+        font-size: 8.5pt;
+        color: #564E48;
+      }
+
+      /* Print Active Tab Only vs Print All Tabs */
+      body.print-mode-single .tab-panel:not(.is-active) {
+        display: none !important;
+      }
+
+      body.print-mode-single .tab-panel.is-active {
+        display: block !important;
+      }
+
+      body.print-mode-all .tab-panel {
+        display: block !important;
+      }
+
+      body.print-mode-all .tab-panel + .tab-panel {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .phase-card,
+      .kurikulum-intro-card,
+      .day-article-card {
+        border: 1px solid #D3C7AE !important;
+        box-shadow: none !important;
+      }
+
+      .phase-body {
+        display: block !important;
+      }
+
+      .phase-card,
+      .sub-item-card,
+      .info-card,
+      .struct-card,
+      .stage-node,
+      .calculator-box,
+      .callout-box,
+      .code-wrapper,
+      .table-wrapper {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      pre.code-pre {
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
+        font-size: 8.2pt !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Print Header Banner -->
+    <div class="print-doc-banner" id="printDocBanner">
+      <div>
+        <div class="print-doc-title">30 Days of Data Science — Study Cheatsheet</div>
+        <div class="print-doc-meta" id="printDocSubtitle">Kurikulum Komprehensif</div>
+      </div>
+      <div class="print-doc-meta" id="printDocDate"></div>
+    </div>
+
+    <!-- ======================================================================
+         1. TOP HERO HEADER & PRIMARY TAB NAVIGATION
+         Order: [Kurikulum] -> [1/30] -> [2/30] ... [30/30]
+         ====================================================================== -->
+    <header class="hero-card">
+      <div class="hero-top">
+        <div>
+          <span class="eyebrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Interactive Study Cheatsheet Hub
+          </span>
+          <h1 class="hero-title">30 Days of Data Science — Study Cheatsheet</h1>
+          <p class="hero-subtitle">
+            Kurikulum terstruktur berstandar industri &amp; akademis serta catatan harian dari fondasi statistik hingga level produksi.
+          </p>
+        </div>
+
+        <div class="stats-cluster">
+          <div class="stat-box">
+            <div class="stat-value" id="dayProgressStat">1 / 30 Hari</div>
+            <div class="stat-label" id="dayProgressPct">3.3% Catatan Terisi</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value terra" id="kurikulumProgressStat">0 / 20</div>
+            <div class="stat-label">Sub-Kurikulum Selesai</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-track">
+        <div class="progress-fill" id="overallProgressBar" style="width: 3.33%;"></div>
+      </div>
+
+      <!-- Tab Strip Header & Legend -->
+      <div class="tab-nav-header">
+        <span>Navigasi Modul (Kurikulum &rarr; 1/30 s.d. 30/30)</span>
+        <div class="tab-legend">
+          <span class="legend-item"><i class="legend-dot" style="background: var(--accent-sage);"></i>Aktif / Selesai</span>
+          <span class="legend-item"><i class="legend-dot" style="background: var(--border-strong);"></i>Upcoming</span>
+        </div>
+      </div>
+
+      <!-- Primary Tab Bar: Kurikulum FIRST (Active by Default), followed by 1/30 .. 30/30 -->
+      <nav class="primary-tab-strip" id="primaryTabStrip" role="tablist" aria-label="Navigasi Kurikulum dan Catatan Harian">
+        <button
+          type="button"
+          role="tab"
+          id="tab-btn-kurikulum"
+          class="tab-btn tab-kurikulum is-active"
+          aria-selected="true"
+          aria-controls="tab-kurikulum"
+          onclick="switchMainTab('kurikulum')"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          Kurikulum
+          <span class="tab-badge">6 Fase</span>
+        </button>
+
+        <span class="tab-divider" aria-hidden="true"></span>
+
+        <!-- Day tabs (1/30 active/available, 2/30 .. 30/30 upcoming) injected cleanly by JS -->
+      </nav>
+    </header>
+
+    <!-- ======================================================================
+         2. CONTROL BAR (SEARCH, EXPAND/COLLAPSE, PDF EXPORTS)
+         ====================================================================== -->
+    <div class="control-bar">
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Cari fase kurikulum, sub-topik, konsep statistik, atau sintaks Pandas..."
+          aria-label="Cari materi pada tab aktif"
+        />
+        <button type="button" id="searchClearBtn" class="search-clear" title="Hapus pencarian">✕</button>
+      </div>
+
+      <div class="control-actions">
+        <button type="button" class="btn-ui" onclick="toggleAllInActiveTab(true)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+          Expand All
+        </button>
+        <button type="button" class="btn-ui" onclick="toggleAllInActiveTab(false)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+          Collapse All
+        </button>
+        <button type="button" class="btn-ui btn-sage" id="btnPrintActiveTab" onclick="exportActiveTabPDF()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Simpan PDF (Tab Aktif)
+        </button>
+        <button type="button" class="btn-ui btn-terra" onclick="exportAllTabsPDF()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Simpan Semua PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="search-status-bar" id="searchStatusBar">
+      <span id="searchStatusText">Menampilkan hasil filter...</span>
+      <button type="button" class="btn-ui" style="padding: 0.35rem 0.7rem; font-size: 0.78rem;" onclick="resetSearch()">Reset Filter</button>
+    </div>
+
+    <!-- ======================================================================
+         3. TAB 1 VIEW: KURIKULUM KOMPREHENSIF (VISIBLE BY DEFAULT)
+         ====================================================================== -->
+    <section id="tab-kurikulum" class="tab-panel is-active" role="tabpanel" aria-labelledby="tab-btn-kurikulum">
+      <div class="kurikulum-intro-card">
+        <div class="section-top-bar">
+          <div>
+            <span class="eyebrow" style="margin-bottom: 0.45rem;">Master Curriculum Roadmap</span>
+            <h2 class="panel-title">Kurikulum Komprehensif Data Science (6 Fase Utama)</h2>
+          </div>
+          <button type="button" class="btn-ui btn-terra" onclick="exportActiveTabPDF()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Simpan PDF (Kurikulum)
+          </button>
+        </div>
+
+        <p class="intro-lead">
+          Kurikulum komprehensif berstandar industri dan akademis untuk membentuk keahlian seorang Data Scientist dari fondasi hingga level produksi. Struktur ini disintesis dari kerangka kerja baku para ahli dan literatur klasik Data Science—mulai dari alur kerja <strong>Import &rarr; Tidy &rarr; Transform &rarr; Visualise &rarr; Model &rarr; Communicate</strong> milik <strong>Hadley Wickham &amp; Garrett Grolemund</strong> (<em>R for Data Science</em>), standar metodologi lintas industri <strong>CRISP-DM</strong>, fondasi pembelajaran statistik <strong>Gareth James, Daniela Witten, Trevor Hastie, &amp; Robert Tibshirani</strong> (<em>ISLR</em>), rekayasa sistem <strong>Aurélien Géron</strong> (<em>Hands-On Machine Learning</em>), hingga arsitektur produksi <strong>Chip Huyen</strong> (<em>Designing Machine Learning Systems</em>).
+        </p>
+
+        <!-- 5 Reference Framework Pillars -->
+        <div class="framework-grid">
+          <div class="fw-chip">
+            <div class="fw-author">Wickham &amp; Grolemund</div>
+            <div class="fw-book">R for Data Science (Import &rarr; Communicate)</div>
+          </div>
+          <div class="fw-chip">
+            <div class="fw-author">Standar Industri</div>
+            <div class="fw-book">Metodologi CRISP-DM</div>
+          </div>
+          <div class="fw-chip">
+            <div class="fw-author">James, Witten, Hastie, Tibshirani</div>
+            <div class="fw-book">An Introduction to Statistical Learning (ISLR)</div>
+          </div>
+          <div class="fw-chip">
+            <div class="fw-author">Aurélien Géron</div>
+            <div class="fw-book">Hands-On Machine Learning</div>
+          </div>
+          <div class="fw-chip">
+            <div class="fw-author">Chip Huyen</div>
+            <div class="fw-book">Designing Machine Learning Systems</div>
+          </div>
+        </div>
+
+        <!-- Interactive Phase Filter Pills & Reset Checklist -->
+        <div class="phase-filter-bar">
+          <div class="phase-pills" id="phaseFilterPills">
+            <button type="button" class="phase-pill is-active" data-phase="all" onclick="filterByPhase('all', this)">Semua Fase (6)</button>
+            <button type="button" class="phase-pill" data-phase="1" onclick="filterByPhase('1', this)">Fase 1</button>
+            <button type="button" class="phase-pill" data-phase="2" onclick="filterByPhase('2', this)">Fase 2</button>
+            <button type="button" class="phase-pill" data-phase="3" onclick="filterByPhase('3', this)">Fase 3</button>
+            <button type="button" class="phase-pill" data-phase="4" onclick="filterByPhase('4', this)">Fase 4</button>
+            <button type="button" class="phase-pill" data-phase="5" onclick="filterByPhase('5', this)">Fase 5</button>
+            <button type="button" class="phase-pill" data-phase="6" onclick="filterByPhase('6', this)">Fase 6</button>
+          </div>
+
+          <button type="button" class="btn-ui" style="padding: 0.42rem 0.78rem; font-size: 0.78rem;" onclick="resetCurriculumChecklist()">
+            Reset Checklist Progres
+          </button>
+        </div>
+      </div>
+
+      <!-- ALL 6 PHASES STACK (EXPANDED BY DEFAULT) -->
+      <div class="phases-stack" id="phasesStack">
+
+        <!-- FASE 1 -->
+        <article class="phase-card is-open" data-phase-card="1">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 1</span>
+                <span class="phase-ref-tag">Ref: Bruce &amp; Bruce – Practical Statistics for Data Scientists; Wasserman – All of Statistics</span>
+              </div>
+              <h3 class="phase-title">Fase 1: Fondasi Matematika &amp; Pemikiran Statistik</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Sebelum menyentuh algoritma, seorang Data Scientist wajib memahami bagaimana ketidakpastian diukur dan bagaimana menarik kesimpulan yang sah dari sampel terbatas.
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-1-1" data-sub-id="1.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-1-1" class="sub-title-label">Sub-Kurikulum 1.1: Statistika Deskriptif &amp; Teori Distribusi</label>
+                  <ul class="sub-bullets">
+                    <li>Ukuran pemusatan dan ketahanan (<em>robustness</em>): <strong>Mean</strong>, <strong>Median</strong>, <strong>Trimmed Mean</strong>, serta kondisi kapan masing-masing wajib digunakan.</li>
+                    <li>Ukuran sebaran dan bentuk kurva: <strong>Variance</strong>, <strong>Standard Deviation</strong>, <strong>Interquartile Range (IQR)</strong>, <strong>Median Absolute Deviation (MAD)</strong>, <strong>Coefficient of Variation (CV)</strong>, <strong>Skewness</strong>, dan <strong>Kurtosis</strong>.</li>
+                    <li>Distribusi probabilitas fundamental: <strong>Normal (Gaussian)</strong>, <strong>Binomial</strong>, <strong>Poisson</strong>, <strong>Eksponensial</strong>, <strong>Student's t</strong>, dan <strong>Chi-Square</strong>, serta <strong>Central Limit Theorem (CLT)</strong>.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-1-2" data-sub-id="1.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-1-2" class="sub-title-label">Sub-Kurikulum 1.2: Statistika Inferensial &amp; Pengujian Hipotesis</label>
+                  <ul class="sub-bullets">
+                    <li>Logika pengujian hipotesis: Hipotesis Nol (<em>H<sub>0</sub></em>) vs Alternatif (<em>H<sub>1</sub></em>), <em>p-value</em>, <em>Confidence Interval</em>, Kesalahan Tipe I (&alpha;), Kesalahan Tipe II (&beta;), dan <em>Statistical Power</em> (perhitungan ukuran sampel minimum).</li>
+                    <li>Uji Parametrik vs Non-Parametrik: Uji normalitas (<strong>Shapiro-Wilk</strong>, <strong>Kolmogorov-Smirnov</strong>), <strong>t-test</strong> (independen &amp; berpasangan), <strong>ANOVA</strong>, <strong>Mann-Whitney U</strong>, <strong>Wilcoxon Signed-Rank</strong>, dan <strong>Kruskal-Wallis</strong>.</li>
+                    <li>Analisis hubungan dan asosiasi: Korelasi <strong>Pearson</strong> vs <strong>Spearman</strong>, <strong>Covariance</strong>, serta uji <strong>Chi-Square (&chi;&sup2;)</strong> untuk tabel kontingensi kategorikal.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-1-3" data-sub-id="1.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-1-3" class="sub-title-label">Sub-Kurikulum 1.3: Fondasi Aljabar Linear &amp; Kalkulus untuk Pemodelan</label>
+                  <ul class="sub-bullets">
+                    <li>Vektor, matriks, perkalian <em>dot product</em>, <strong>eigenvalues/eigenvectors</strong> (fondasi reduksi dimensi PCA), serta konsep <strong>turunan parsial</strong> dan <strong>gradient descent</strong> (fondasi optimasi fungsi kerugian / <em>loss function</em>).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FASE 2 -->
+        <article class="phase-card is-open" data-phase-card="2">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 2</span>
+                <span class="phase-ref-tag">Ref: Wes McKinney – Python for Data Analysis; Martin Kleppmann – Designing Data-Intensive Applications</span>
+              </div>
+              <h3 class="phase-title">Fase 2: Rekayasa Data, Pemrograman &amp; Manajemen Basis Data</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Menurut Wes McKinney dan standar CRISP-DM, <strong>60%–70% waktu kerja riil</strong> dihabiskan pada tahap pengumpulan, integrasi, dan pembersihan data.
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-2-1" data-sub-id="2.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-2-1" class="sub-title-label">Sub-Kurikulum 2.1: Pemrograman Python Modular &amp; Komputasi Vektor</label>
+                  <ul class="sub-bullets">
+                    <li>Struktur data inti (<code class="inline-code">list</code>, <code class="inline-code">tuple</code>, <code class="inline-code">set</code>, <code class="inline-code">dict</code>), komprehensi (<em>list/dict comprehensions</em>), fungsi modular (<code class="inline-code">def</code>), <em>exception handling</em> (<code class="inline-code">try-except</code>), serta penulisan kode bersih berstandar <strong>PEP 8</strong>.</li>
+                    <li><strong>NumPy &amp; Vectorization:</strong> Arsitektur <em>n-dimensional array</em> (<code class="inline-code">ndarray</code>), <em>broadcasting</em>, dan penghindaran iterasi loop manual untuk efisiensi komputasi.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-2-2" data-sub-id="2.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-2-2" class="sub-title-label">Sub-Kurikulum 2.2: Manipulasi &amp; Audit Kualitas Data (Pandas)</label>
+                  <ul class="sub-bullets">
+                    <li>Indexing dan seleksi tingkat lanjut (<em>Boolean indexing</em>, <code class="inline-code">.loc</code>, <code class="inline-code">.iloc</code>, <code class="inline-code">MultiIndex</code>).</li>
+                    <li>Transformasi relasional: <code class="inline-code">groupby</code> dengan agregasi kustom (<code class="inline-code">.agg()</code>), penggabungan tabel (<code class="inline-code">merge</code>, <code class="inline-code">join</code>, <code class="inline-code">concat</code>), serta perubahan bentuk (<em>reshaping</em> dengan <code class="inline-code">pivot_table</code>, <code class="inline-code">melt</code>, <code class="inline-code">stack/unstack</code>).</li>
+                    <li>Protokol audit kualitas data: Penanganan <em>missing values</em> (membedakan mekanisme <strong>MCAR</strong>, <strong>MAR</strong>, <strong>MNAR</strong>), deteksi duplikat, standardisasi teks (<em>Regular Expressions / regex</em>), parsing waktu (<code class="inline-code">datetime</code>), dan deteksi anomali multivariat/berkelompok.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-2-3" data-sub-id="2.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-2-3" class="sub-title-label">Sub-Kurikulum 2.3: SQL Analitik &amp; Ekstraksi Data Skala Besar</label>
+                  <ul class="sub-bullets">
+                    <li>Kueri relasional kompleks (<code class="inline-code">INNER</code>, <code class="inline-code">LEFT</code>, <code class="inline-code">FULL OUTER</code>, <code class="inline-code">SELF JOIN</code>), <em>subqueries</em>, dan <em>Common Table Expressions</em> (<strong>CTE</strong>).</li>
+                    <li><strong>Window Functions</strong> untuk analitik lanjutan: <code class="inline-code">ROW_NUMBER()</code>, <code class="inline-code">RANK()</code>, <code class="inline-code">DENSE_RANK()</code>, <code class="inline-code">LAG()</code>, <code class="inline-code">LEAD()</code>, serta kalkulasi agregasi bergerak (<em>running totals</em> dan <em>moving averages</em>).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FASE 3 -->
+        <article class="phase-card is-open" data-phase-card="3">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 3</span>
+                <span class="phase-ref-tag">Ref: John Tukey – Exploratory Data Analysis; Cole Nussbaumer Knaflic; Hadley Wickham</span>
+              </div>
+              <h3 class="phase-title">Fase 3: Exploratory Data Analysis (EDA) &amp; Visualisasi Berbasis Kognisi</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Berdasarkan filosofi <strong>John Tukey</strong> (EDA sebagai kerja detektif data), <strong>Cole Nussbaumer Knaflic</strong> (<em>Storytelling with Data</em>), dan <strong>Hadley Wickham</strong> (<em>Layered Grammar of Graphics</em>).
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-3-1" data-sub-id="3.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-3-1" class="sub-title-label">Sub-Kurikulum 3.1: Metodologi Investigasi EDA</label>
+                  <ul class="sub-bullets">
+                    <li>Analisis <strong>Univariat</strong> (memeriksa multimodalitas, ekor distribusi, dan <em>granularity</em> data), <strong>Bivariat</strong> (hubungan non-linear, efek <em>Simpson's Paradox</em>), dan <strong>Multivariat</strong>.</li>
+                    <li>Strategi identifikasi dan perlakuan <em>outlier</em>: Membedakan <em>measurement error</em> dari <em>natural extreme values</em>, serta teknik transformasi (<em>log transform</em>, <em>Box-Cox</em>, <em>Yeo-Johnson</em>, atau <em>winsorizing</em>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-3-2" data-sub-id="3.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-3-2" class="sub-title-label">Sub-Kurikulum 3.2: Tata Bahasa Grafik &amp; Visualisasi Analitis</label>
+                  <ul class="sub-bullets">
+                    <li>Penguasaan pustaka <strong>Matplotlib</strong> (anatomi <code class="inline-code">Figure</code> dan <code class="inline-code">Axes</code>) dan <strong>Seaborn</strong> (<em>Histogram + KDE</em>, <em>Boxplot</em>, <em>Violin Plot</em>, <em>Jointplot</em>, <em>Pairplot</em>, <em>Clustered Heatmap</em>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-3-3" data-sub-id="3.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-3-3" class="sub-title-label">Sub-Kurikulum 3.3: Storytelling with Data &amp; Desain Eksplanatori</label>
+                  <ul class="sub-bullets">
+                    <li>Pemilihan jenis grafik berdasarkan tujuan kognitif (perbandingan, komposisi, distribusi, hubungan).</li>
+                    <li>Penghapusan <em>chartjunk</em> (<strong>Edward Tufte</strong>), penerapan <em>pre-attentive attributes</em> (warna fokus, hierarki tipografi), dan penyusunan narasi temuan untuk pemangku kepentingan non-teknis.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FASE 4 -->
+        <article class="phase-card is-open" data-phase-card="4">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 4</span>
+                <span class="phase-ref-tag">Ref: James et al. – ISLR; Hastie, Tibshirani, &amp; Friedman – ESL; Aurélien Géron</span>
+              </div>
+              <h3 class="phase-title">Fase 4: Pembelajaran Statistik &amp; Machine Learning Klasik</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Merujuk pada <strong>ISLR</strong> dan <strong>Hands-On Machine Learning</strong>—memahami keseimbangan <em>Bias-Variance Tradeoff</em> dan pencegahan kebocoran data (<em>data leakage</em>).
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-4-1" data-sub-id="4.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-4-1" class="sub-title-label">Sub-Kurikulum 4.1: Rekayasa Fitur (Feature Engineering) &amp; Pipeline Anti-Leakage</label>
+                  <ul class="sub-bullets">
+                    <li>Pembagian data yang sah: <strong>Train/Validation/Test split</strong>, <strong>Stratified Split</strong>, dan <strong>Group Split</strong> (agar entitas yang sama tidak bocor antara data latih dan uji).</li>
+                    <li>Pembungkusan transformasi menggunakan Scikit-Learn <code class="inline-code">Pipeline</code> dan <code class="inline-code">ColumnTransformer</code>: Imputation (<code class="inline-code">SimpleImputer</code>, <code class="inline-code">KNNImputer</code>), Scaling (<code class="inline-code">StandardScaler</code>, <code class="inline-code">MinMaxScaler</code>, <code class="inline-code">RobustScaler</code>), dan Encoding (<code class="inline-code">OneHotEncoder</code>, <code class="inline-code">OrdinalEncoder</code>, <code class="inline-code">TargetEncoder</code>).</li>
+                    <li>Seleksi fitur: <em>Filter methods</em> (korelasi, <em>mutual information</em>), <em>Wrapper methods</em> (<strong>RFE</strong>), dan <em>Embedded methods</em> (penalti Lasso <em>L<sub>1</sub></em>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-4-2" data-sub-id="4.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-4-2" class="sub-title-label">Sub-Kurikulum 4.2: Pemodelan Regresi (Supervised Continuous)</label>
+                  <ul class="sub-bullets">
+                    <li><strong>Ordinary Least Squares (OLS)</strong> beserta uji asumsi klasiknya (linearitas, homoskedastisitas, multikolinearitas/<strong>VIF</strong>).</li>
+                    <li>Regularisasi untuk mencegah <em>overfitting</em>: <strong>Ridge Regression (<em>L<sub>2</sub></em>)</strong>, <strong>Lasso Regression (<em>L<sub>1</sub></em>)</strong>, dan <strong>ElasticNet</strong>.</li>
+                    <li>Regresi non-linear berbasis pohon: <strong>Decision Tree Regressor</strong>, <strong>Random Forest</strong>, dan <em>Gradient Boosted Decision Trees</em> (<strong>XGBoost</strong>, <strong>LightGBM</strong>, <strong>CatBoost</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-4-3" data-sub-id="4.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-4-3" class="sub-title-label">Sub-Kurikulum 4.3: Pemodelan Klasifikasi (Supervised Categorical)</label>
+                  <ul class="sub-bullets">
+                    <li><strong>Logistic Regression</strong> (logika <em>log-odds</em> dan fungsi sigmoid), <strong>Support Vector Machines (SVM)</strong>, <strong>Random Forest</strong>, dan <strong>XGBoost/LightGBM</strong>.</li>
+                    <li>Penanganan <em>Imbalanced Dataset</em>: <em>Class weighting</em>, <em>oversampling</em> (<strong>SMOTE</strong>), <em>undersampling</em>, serta kalibrasi probabilitas (<strong>Platt Scaling</strong> / <strong>Isotonic Regression</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-4-4" data-sub-id="4.4" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-4-4" class="sub-title-label">Sub-Kurikulum 4.4: Validasi, Evaluasi Metrik &amp; Optimasi Hyperparameter</label>
+                  <ul class="sub-bullets">
+                    <li><strong>K-Fold Cross-Validation</strong> dan <strong>Stratified K-Fold</strong>.</li>
+                    <li>Pemilihan metrik sesuai biaya kesalahan bisnis: Regresi (<strong>MAE</strong>, <strong>RMSE</strong>, <strong>MAPE</strong>, <strong>R&sup2;</strong>); Klasifikasi (<strong>Confusion Matrix</strong>, <strong>Precision</strong>, <strong>Recall</strong>, <strong>F1-Score</strong>, <strong>ROC-AUC</strong>, <strong>Precision-Recall AUC</strong>, serta optimalisasi <em>decision threshold</em>).</li>
+                    <li>Pencarian <em>hyperparameter</em>: <code class="inline-code">GridSearchCV</code>, <code class="inline-code">RandomizedSearchCV</code>, dan optimasi Bayesian (<strong>Optuna</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FASE 5 -->
+        <article class="phase-card is-open" data-phase-card="5">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 5</span>
+                <span class="phase-ref-tag">Ref: Scott Cunningham – Causal Inference: The Mixtape; Rob Hyndman – Forecasting: Principles and Practice</span>
+              </div>
+              <h3 class="phase-title">Fase 5: Pemodelan Lanjutan (Unsupervised, Time Series, Spasial &amp; Causal Inference)</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Memperluas kapabilitas analitik pada data tanpa label, data berdimensi waktu/ruang, serta pembuktian hubungan sebab-akibat.
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-5-1" data-sub-id="5.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-5-1" class="sub-title-label">Sub-Kurikulum 5.1: Unsupervised Learning &amp; Reduksi Dimensi</label>
+                  <ul class="sub-bullets">
+                    <li>Algoritma pengelompokan: <strong>K-Means</strong>, <strong>K-Prototype</strong> (khusus data campuran numerik dan kategorikal), <strong>Hierarchical Clustering</strong> (<em>Agglomerative</em>), dan <strong>DBSCAN</strong> (berbasis kepadatan untuk menangkap bentuk klaster non-bulat serta memisahkan <em>noise</em>).</li>
+                    <li>Validasi klaster: <strong>Elbow Method</strong>, <strong>Silhouette Score</strong>, <strong>Davies-Bouldin Index</strong>, serta validasi eksternal menggunakan uji statistik antar-klaster.</li>
+                    <li>Reduksi dimensi: <strong>Principal Component Analysis (PCA)</strong> dan visualisasi manifold (<strong>t-SNE</strong>, <strong>UMAP</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-5-2" data-sub-id="5.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-5-2" class="sub-title-label">Sub-Kurikulum 5.2: Analisis Deret Waktu (Time Series Forecasting)</label>
+                  <ul class="sub-bullets">
+                    <li>Dekomposisi komponen (<strong>Trend</strong>, <strong>Seasonality</strong>, <strong>Residual</strong>), uji stasioneritas (<strong>Augmented Dickey-Fuller</strong>), dan analisis autokorelasi (<strong>ACF &amp; PACF</strong>).</li>
+                    <li>Pemodelan: <strong>Exponential Smoothing (Holt-Winters)</strong>, <strong>ARIMA/SARIMA</strong>, <strong>Prophet</strong>, dan pendekatan regresi ML berbasis fitur <em>lag</em> dengan skema validasi <code class="inline-code">TimeSeriesSplit</code> (mencegah kebocoran masa depan).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-5-3" data-sub-id="5.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-5-3" class="sub-title-label">Sub-Kurikulum 5.3: Analisis Data Geospasial (GeoPandas)</label>
+                  <ul class="sub-bullets">
+                    <li>Sistem koordinat referensi (<strong>CRS</strong> / proyeksi peta), operasi spasial (<em>spatial join</em>, <em>buffer</em>, <em>overlay</em>), dan pemetaan tematik (<strong>Choropleth Map</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-5-4" data-sub-id="5.4" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-5-4" class="sub-title-label">Sub-Kurikulum 5.4: Causal Inference &amp; Eksperimentasi (A/B Testing)</label>
+                  <ul class="sub-bullets">
+                    <li>Perbedaan fundamental antara korelasi prediktif dan kausalitas intervensi (<em>Pearl's Ladder of Causation</em>).</li>
+                    <li>Desain eksperimen terkontrol (<em>Randomized Controlled Trials</em> / <strong>A/B Testing</strong>) serta metode kuasi-eksperimental untuk data observasional: <strong>Propensity Score Matching (PSM)</strong> dan <strong>Difference-in-Differences (DiD)</strong>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FASE 6 -->
+        <article class="phase-card is-open" data-phase-card="6">
+          <button type="button" class="phase-header" aria-expanded="true" onclick="togglePhaseCard(this)">
+            <div>
+              <div class="phase-badge-row">
+                <span class="phase-number-pill">FASE 6</span>
+                <span class="phase-ref-tag">Ref: Chip Huyen – Designing Machine Learning Systems; Christoph Molnar – Interpretable Machine Learning</span>
+              </div>
+              <h3 class="phase-title">Fase 6: Rekayasa Sistem ML, Interpretabilitas &amp; MLOps (Production-Ready)</h3>
+            </div>
+            <span class="chevron-circle" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+
+          <div class="phase-body">
+            <div class="phase-context-note">
+              Berdasarkan kerangka <strong>Chip Huyen</strong> dan <strong>Christoph Molnar</strong>—memastikan model transparan, dapat direproduksi, dan bertahan di lingkungan nyata.
+            </div>
+
+            <div class="sub-curricula-list">
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-6-1" data-sub-id="6.1" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-6-1" class="sub-title-label">Sub-Kurikulum 6.1: Explainable AI (XAI) &amp; Interpretabilitas Model</label>
+                  <ul class="sub-bullets">
+                    <li>Interpretasi global vs lokal: <strong>Permutation Feature Importance</strong>, <strong>Partial Dependence Plots (PDP)</strong>, dan nilai <strong>SHAP</strong> (<em>SHapley Additive exPlanations</em>) untuk menjelaskan kontribusi setiap fitur pada prediksi individual.</li>
+                    <li>Audit keadilan model (<strong>Fairness &amp; Bias Detection</strong>) untuk mencegah diskriminasi antar-subkelompok populasi.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-6-2" data-sub-id="6.2" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-6-2" class="sub-title-label">Sub-Kurikulum 6.2: Rekayasa Perangkat Lunak untuk Data Science</label>
+                  <ul class="sub-bullets">
+                    <li>Manajemen versi kode dengan <strong>Git &amp; GitHub</strong>, struktur direktori standar proyek (<strong>Cookiecutter Data Science</strong>), manajemen lingkungan virtual (<code class="inline-code">venv</code>/<code class="inline-code">conda</code>), dan pengelolaan dependensi (<code class="inline-code">requirements.txt</code>).</li>
+                    <li>Pengujian otomatis (<em>Unit Testing</em> dengan <code class="inline-code">pytest</code> untuk memvalidasi fungsi transformasi data).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sub-item-card" data-searchable-item>
+                <input type="checkbox" class="sub-checkbox" id="sub-6-3" data-sub-id="6.3" onchange="handleChecklistChange()" />
+                <div class="sub-content">
+                  <label for="sub-6-3" class="sub-title-label">Sub-Kurikulum 6.3: Deployment &amp; Pemantauan Model (MLOps Dasar)</label>
+                  <ul class="sub-bullets">
+                    <li>Serialisasi model (<code class="inline-code">joblib</code> / <code class="inline-code">ONNX</code>) dan penyajian model sebagai antarmuka interaktif (<strong>Streamlit</strong> / <strong>Gradio</strong>) atau layanan API (<strong>FastAPI</strong>).</li>
+                    <li>Pemantauan pasca-produksi: Deteksi pergeseran distribusi data (<strong>Data Drift</strong> menggunakan <em>Population Stability Index / PSI</em> atau uji <em>Kolmogorov-Smirnov</em>) serta penurunan performa model (<strong>Concept Drift</strong>).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. TAB 2 VIEW: DAY 1/30 CHEATSHEET
+         ====================================================================== -->
+    <section id="tab-day-1" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-day-1" data-day-panel="1">
+      <article class="day-article-card">
+        <div class="day-banner-header">
+          <div>
+            <div class="day-meta-tags">
+              <span class="day-pill">HARI 1 / 30</span>
+              <span class="topic-tag">Statistik Deskriptif</span>
+              <span class="topic-tag">Deteksi Outlier</span>
+              <span class="topic-tag">Python &amp; Pandas</span>
+            </div>
+            <h2 class="panel-title">1/30: Diagnosa Sebaran Data, Deteksi Outlier &amp; Fondasi Python/Pandas</h2>
+          </div>
+
+          <button type="button" class="btn-ui btn-sage" onclick="exportActiveTabPDF()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Simpan PDF (1/30)
+          </button>
+        </div>
+
+        <div class="day-article-body">
+          <!-- BAGIAN 1: DIAGNOSA SEBARAN DATA -->
+          <section class="cheatsheet-section" data-searchable-item>
+            <div class="sec-head">
+              <div class="sec-num">01</div>
+              <h3 class="sec-title">Diagnosa Sebaran Data (<em>Skewness</em> &amp; <em>Modality</em>)</h3>
+            </div>
+
+            <h4 class="sub-h">A. Membandingkan Mean vs Median</h4>
+            <p style="color: var(--text-secondary);">
+              Membandingkan nilai rata-rata (<strong>Mean</strong>) dan nilai tengah (<strong>Median</strong>) adalah cara tercepat untuk mendeteksi ketidakseimbangan bentuk distribusi data sebelum membuat grafik.
+            </p>
+
+            <div class="table-wrapper">
+              <table class="editorial-table">
+                <thead>
+                  <tr>
+                    <th>Kondisi Metrik</th>
+                    <th>Bentuk Kurva</th>
+                    <th>Visual Ekor</th>
+                    <th>Makna &amp; Penyebab di Lapangan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Mean &approx; Median</strong></td>
+                    <td><span class="curve-pill curve-sym">Simetris (Normal)</span></td>
+                    <td>
+                      <svg width="74" height="24" viewBox="0 0 74 24" fill="none">
+                        <path d="M2 22 C 17 22, 23 3, 37 3 C 51 3, 57 22, 72 22" stroke="#2E5A44" stroke-width="2.2" fill="rgba(46,90,68,0.14)"/>
+                        <line x1="37" y1="2" x2="37" y2="22" stroke="#2E5A44" stroke-dasharray="2 2"/>
+                      </svg>
+                    </td>
+                    <td>Data tersebar merata di sekitar pusat; tidak ada nilai ekstrem yang menarik rata-rata.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mean &gt; Median</strong></td>
+                    <td><span class="curve-pill curve-right">Right-Skewed</span></td>
+                    <td>
+                      <svg width="74" height="24" viewBox="0 0 74 24" fill="none">
+                        <path d="M2 22 C 10 22, 14 3, 21 3 C 31 3, 41 20, 72 22" stroke="#8B5A2B" stroke-width="2.2" fill="rgba(139,90,43,0.14)"/>
+                        <line x1="21" y1="2" x2="21" y2="22" stroke="#2E5A44" stroke-dasharray="2 2"/>
+                        <line x1="32" y1="7" x2="32" y2="22" stroke="#8B5A2B"/>
+                      </svg>
+                    </td>
+                    <td>Ekor melandai panjang ke <strong>kanan</strong> karena ada segelintir nilai ekstrem besar yang menarik rata-rata naik.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mean &lt; Median</strong></td>
+                    <td><span class="curve-pill curve-left">Left-Skewed</span></td>
+                    <td>
+                      <svg width="74" height="24" viewBox="0 0 74 24" fill="none">
+                        <path d="M2 22 C 33 20, 43 3, 53 3 C 60 3, 64 22, 72 22" stroke="#5B468A" stroke-width="2.2" fill="rgba(91,70,138,0.14)"/>
+                        <line x1="53" y1="2" x2="53" y2="22" stroke="#2E5A44" stroke-dasharray="2 2"/>
+                        <line x1="42" y1="7" x2="42" y2="22" stroke="#5B468A"/>
+                      </svg>
+                    </td>
+                    <td>Ekor melandai panjang ke <strong>kiri</strong> akibat adanya nilai ekstrem sangat kecil yang menarik rata-rata turun.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4 class="sub-h">B. Pasangan Metrik yang Wajib Konsisten</h4>
+            <p style="color: var(--text-secondary);">
+              Satu angka pusat <strong>wajib</strong> didampingi pasangan sebaran dari keluarga rumus yang sama agar kondisi lapangan terlihat utuh dan tidak menipu:
+            </p>
+
+            <div class="grid-2">
+              <div class="info-card sage">
+                <span class="card-badge badge-sage">Keluarga Parametrik (Simetris)</span>
+                <div class="card-title">Mean + Standar Deviasi (<code class="inline-code">std</code>)</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  <strong>Standar Deviasi (<code class="inline-code">std</code>)</strong> adalah akar kuadrat dari <strong>Varians</strong>. Dipakai saat distribusi data simetris dan bersih dari anomali ekstrem.
+                </p>
+              </div>
+
+              <div class="info-card terra">
+                <span class="card-badge badge-terra">Keluarga Non-Parametrik (Miring / Outlier)</span>
+                <div class="card-title">Median + IQR (<code class="inline-code">Q3 - Q1</code>)</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  <strong>Interquartile Range (IQR)</strong> mengukur rentang 50% data tengah. Dipakai saat data miring (<em>skewed</em>) atau ber-<em>outlier</em>.
+                </p>
+              </div>
+            </div>
+
+            <div class="analogy-note">
+              <strong>Kasus Dua Desa Beromzet Sama:</strong> Dua desa bisa memiliki rata-rata omzet yang sama persis, tetapi Desa A merata di seluruh warga (<code class="inline-code">std</code> &amp; <code class="inline-code">IQR</code> kecil), sedangkan Desa B dikuasai satu orang kaya raya dan sisanya miskin (<code class="inline-code">std</code> &amp; <code class="inline-code">IQR</code> timpang). Tanpa metrik sebaran, angka pusat saja akan menipu!
+            </div>
+
+            <h4 class="sub-h">C. Covarians vs Korelasi &amp; Kurva Miring 2 Puncak (<em>Skewed Bimodal</em>)</h4>
+            <div class="grid-2">
+              <div class="info-card">
+                <div class="card-title">Covarians vs Korelasi (<code class="inline-code">.corr()</code>)</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  <strong>Covarians</strong> hanya melihat arah hubungan 2 variabel (<code class="inline-code">+</code> searah, <code class="inline-code">-</code> berlawanan) tanpa batas skala, sedangkan <strong>Korelasi</strong> (<code class="inline-code">.corr()</code>) menormalisasinya ke skala baku <strong>-1 hingga +1</strong> untuk mengukur kekuatan hubungan.
+                </p>
+              </div>
+
+              <div class="info-card">
+                <div class="card-title">Kurva Miring 2 Puncak (<em>Skewed Bimodal</em>)</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  Jika kurva punya 2 puncak, artinya dua populasi berbeda sedang tercampur. Wajib dipisah dulu dengan <code class="inline-code">.groupby()</code> sebelum dihitung agar tidak menghasilkan <strong>"rata-rata hantu"</strong> di lembah kosong.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- BAGIAN 2: VISUALISASI KURVA & DETEKSI OUTLIER -->
+          <section class="cheatsheet-section" data-searchable-item>
+            <div class="sec-head">
+              <div class="sec-num">02</div>
+              <h3 class="sec-title">Visualisasi Kurva &amp; Perhitungan Manual Deteksi <em>Outlier</em></h3>
+            </div>
+
+            <h4 class="sub-h">A. Anatomi Grafik Distribusi</h4>
+            <div class="grid-2">
+              <div class="info-card">
+                <div class="card-title">Sumbu X &amp; Sumbu Y</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  • <strong>Sumbu Mendatar (X):</strong> Menunjukkan <strong>nilai data</strong>.<br />
+                  • <strong>Sumbu Tegak (Y):</strong> Menunjukkan <strong>frekuensi (<em>count</em>)</strong> atau <strong>kepadatan (<em>density</em>, luas total = 1.0)</strong>.
+                </p>
+              </div>
+              <div class="info-card">
+                <div class="card-title">Garis Vertikal (<code class="inline-code">plt.axvline</code>)</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  Menandai posisi titik statistik seperti <strong>Mean</strong>, <strong>Median</strong>, atau <strong>Batas Outlier</strong> secara langsung di atas kurva distribusi.
+                </p>
+              </div>
+            </div>
+
+            <h4 class="sub-h">B. Alur Hitung Manual IQR &amp; Pagar Anomali (Studi Kasus 15 Antrean)</h4>
+            <ol style="padding-left: 1.35rem; color: var(--text-secondary); margin: 0.55rem 0 1rem; font-size: 0.9rem;">
+              <li>Urutkan data dan cari posisi <strong>Q1</strong> (25%), <strong>Median</strong> (50%), dan <strong>Q3</strong> (75%).</li>
+              <li>Hitung rentang tengah: <code class="inline-code">IQR = Q3 - Q1</code>.</li>
+              <li>Hitung pagar batas atas: <code class="inline-code">Batas Atas = Q3 + (1.5 × IQR)</code>. Nilai di luar pagar ini sah berstatus <em>outlier</em> (yang membentuk ekor panjang pada kurva dan titik bintang di luar kumis <em>Boxplot</em>).</li>
+            </ol>
+
+            <!-- INTERACTIVE IQR CALCULATOR WIDGET -->
+            <div class="calculator-box">
+              <div class="calc-header">
+                <div class="calc-title">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent-terracotta)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                  Simulasi Kalkulator IQR &amp; Deteksi Outlier (15 Data Antrean)
+                </div>
+                <button type="button" class="btn-ui" style="padding: 0.38rem 0.72rem; font-size: 0.78rem;" onclick="resetDefaultQueueData()">Reset 15 Antrean</button>
+              </div>
+
+              <p style="font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 0.65rem;">
+                Ubah deret angka di bawah ini (pisahkan dengan koma) untuk menguji perhitungan kuartil, pagar batas atas, dan deteksi <em>outlier</em> secara langsung:
+              </p>
+
+              <div class="calc-input-group">
+                <input
+                  type="text"
+                  id="iqrDataInput"
+                  class="calc-input"
+                  value="4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 11, 12, 24, 38"
+                  aria-label="Deret angka simulasi IQR"
+                />
+                <button type="button" class="btn-ui btn-sage" onclick="runIQRSimulation()">Hitung IQR &amp; Outlier</button>
+              </div>
+
+              <div class="calc-metrics-grid">
+                <div class="metric-tile">
+                  <div class="metric-tile-label">Q1 (25%)</div>
+                  <div class="metric-tile-val" id="resQ1">6.5</div>
+                </div>
+                <div class="metric-tile">
+                  <div class="metric-tile-label">Median (Q2)</div>
+                  <div class="metric-tile-val" id="resMedian">8.0</div>
+                </div>
+                <div class="metric-tile">
+                  <div class="metric-tile-label">Q3 (75%)</div>
+                  <div class="metric-tile-val" id="resQ3">10.5</div>
+                </div>
+                <div class="metric-tile">
+                  <div class="metric-tile-label">IQR (Q3-Q1)</div>
+                  <div class="metric-tile-val" id="resIQR">4.0</div>
+                </div>
+                <div class="metric-tile highlight">
+                  <div class="metric-tile-label">Batas Atas</div>
+                  <div class="metric-tile-val" id="resUpper">16.5</div>
+                </div>
+              </div>
+
+              <div class="calc-result-banner" id="iqrSummaryText">
+                <strong>Hasil Diagnosa:</strong> Dari 15 data terurut, ditemukan <strong>2 outlier atas</strong> yaitu <code class="inline-code">[24, 38]</code> karena nilainya melampaui pagar batas atas <code class="inline-code">16.5</code>.
+              </div>
+            </div>
+
+            <h4 class="sub-h">C. Aturan Penanganan Anomali</h4>
+            <div class="grid-2">
+              <div class="info-card terra">
+                <span class="card-badge badge-terra">Kesalahan Input / Teknis (Error)</span>
+                <div class="card-title">Hapus (<code class="inline-code">drop</code>) atau Koreksi</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  Jangan asal menghapus (<em>drop</em>) <em>outlier</em>. Hapus/koreksi <strong>hanya jika terbukti kesalahan input/teknis (<em>error</em>)</strong>.
+                </p>
+              </div>
+
+              <div class="info-card sage">
+                <span class="card-badge badge-sage">Fakta Nyata (True Outlier)</span>
+                <div class="card-title">Pertahankan &amp; Uji Metode Alternatif</div>
+                <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                  Jika merupakan <strong>fakta nyata (<em>true outlier</em>)</strong>, pertahankan datanya dan gunakan <strong>uji non-parametrik</strong>, <strong>transformasi logaritma (<code class="inline-code">np.log()</code>)</strong>, atau lakukan <strong>uji dua kali</strong> (<em>dengan</em> dan <em>tanpa</em> anomali).
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- BAGIAN 3: PETA JALAN PYTHON & PANDAS -->
+          <section class="cheatsheet-section" data-searchable-item>
+            <div class="sec-head">
+              <div class="sec-num">03</div>
+              <h3 class="sec-title">Peta Jalan Python &amp; Pandas (<em>Data Wrangling</em> hingga <em>Modeling</em>)</h3>
+            </div>
+
+            <h4 class="sub-h">A. Alur Belajar Data Science</h4>
+            <div class="roadmap-flow">
+              <div class="stage-node">
+                <div>
+                  <div class="stage-num">TAHAP 01</div>
+                  <div class="stage-name">Dasar Python</div>
+                  <div class="stage-desc">Variabel, List/Dict, Loop/If, Fungsi <code class="inline-code">def</code>.</div>
+                </div>
+              </div>
+
+              <div class="stage-node">
+                <div>
+                  <div class="stage-num">TAHAP 02</div>
+                  <div class="stage-name">Manipulasi Pandas</div>
+                  <div class="stage-desc">Import CSV, Filter/Sort, GroupBy/Merge/Pivot, Cleaning Null/Duplikat.</div>
+                </div>
+              </div>
+
+              <div class="stage-node active-focus">
+                <div>
+                  <div class="stage-num">TAHAP 03</div>
+                  <div class="stage-name">Visualisasi &amp; EDA</div>
+                  <div class="stage-desc">Diagnosa sebaran kurva, Boxplot &amp; deteksi anomali.</div>
+                </div>
+                <span class="focus-pill">Fondasi Hari Ini</span>
+              </div>
+
+              <div class="stage-node active-focus">
+                <div>
+                  <div class="stage-num">TAHAP 04</div>
+                  <div class="stage-name">Statistik &amp; NumPy</div>
+                  <div class="stage-desc">Kuartil, IQR, Varians, Korelasi &amp; komputasi vektor.</div>
+                </div>
+                <span class="focus-pill">Fondasi Hari Ini</span>
+              </div>
+
+              <div class="stage-node">
+                <div>
+                  <div class="stage-num">TAHAP 05</div>
+                  <div class="stage-name">Machine Learning</div>
+                  <div class="stage-desc">Pemodelan prediktif &amp; evaluasi performa.</div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="sub-h">B. Struktur Wadah Data &amp; Sintaks Kunci</h4>
+            <div class="structures-grid">
+              <div class="struct-card">
+                <span class="struct-syntax">list [...]</span>
+                <div class="struct-name">Daftar Polos Python</div>
+                <p class="struct-desc">Bisa campur tipe data, tanpa index maupun alat hitung statistik bawaan.</p>
+              </div>
+
+              <div class="struct-card">
+                <span class="struct-syntax">tuple (...)</span>
+                <div class="struct-name">Paket Data Terkunci</div>
+                <p class="struct-desc">Hasil dari <code class="inline-code">return</code> banyak nilai jika ditampung ke dalam 1 variabel.</p>
+              </div>
+
+              <div class="struct-card">
+                <span class="struct-syntax">set {...}</span>
+                <div class="struct-name">Himpunan Tanpa Duplikat</div>
+                <p class="struct-desc">Dipakai untuk audit kelengkapan kode unik atau mencari selisih data.</p>
+              </div>
+
+              <div class="struct-card">
+                <span class="struct-syntax">dict {k: v}</span>
+                <div class="struct-name">Kamus Pemetaan Kode</div>
+                <p class="struct-desc">Kamus pasangan <em>key-value</em>, dipakai untuk <code class="inline-code">.map()</code> atau <code class="inline-code">.replace()</code>.</p>
+              </div>
+
+              <div class="struct-card">
+                <span class="struct-syntax">pd.Series (df['kolom'])</span>
+                <div class="struct-name">Satu Kolom Homogen</div>
+                <p class="struct-desc">Dengan <strong>Index</strong> sebagai pengikat baris dan dilengkapi alat hitung statistik (<code class="inline-code">.mean()</code>, <code class="inline-code">.quantile()</code>).</p>
+              </div>
+
+              <div class="struct-card">
+                <span class="struct-syntax">pd.DataFrame (df[['kolom']])</span>
+                <div class="struct-name">Tabel 2 Dimensi</div>
+                <p class="struct-desc">Gabungan beberapa <code class="inline-code">Series</code> yang berbagi Index baris yang sama.</p>
+              </div>
+            </div>
+
+            <h4 class="sub-h">C. Boolean Indexing &amp; Fungsi (<code class="inline-code">def</code>)</h4>
+            <p style="color: var(--text-secondary);">
+              <strong>Boolean Indexing</strong> (<code class="inline-code">df[df['kolom'] &gt; batas]</code>) menggunakan hasil perbandingan <code class="inline-code">True</code>/<code class="inline-code">False</code> (dieksekusi serentak via <em>vectorization</em> tanpa <code class="inline-code">for</code> loop) sebagai penyaring baris tabel secara utuh. Sementara <strong>Fungsi (<code class="inline-code">def</code>)</strong> membungkus rumus dan logika <code class="inline-code">for</code>/<code class="inline-code">if</code> menjadi mesin otomatis yang bisa dipanggil ulang, mengembalikan hasil lewat <code class="inline-code">return</code>, dan menyimpannya ke variabel penerima di sebelah kiri tanda <code class="inline-code">=</code>.
+            </p>
+
+            <!-- CODE SNIPPET: COLAB READY -->
+            <div class="code-wrapper">
+              <div class="code-header">
+                <span class="code-lang">python — colab_deteksi_outlier_dan_pandas.py</span>
+                <button type="button" class="copy-btn" onclick="copyCodeBlock(this)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Code
+                </button>
+              </div>
+              <pre class="code-pre"><code><span class="tok-kw">import</span> pandas <span class="tok-kw">as</span> pd
+<span class="tok-kw">import</span> numpy <span class="tok-kw">as</span> np
+
+<span class="tok-cm"># 1. Fungsi otomatis (def) untuk deteksi outlier atas pada data_list</span>
+<span class="tok-kw">def</span> <span class="tok-fn">deteksi_outlier_atas</span>(data_list):
+    seri = pd.Series(data_list)
+    q1 = seri.quantile(<span class="tok-num">0.25</span>)
+    q3 = seri.quantile(<span class="tok-num">0.75</span>)
+    iqr = q3 - q1
+    batas_atas = q3 + (<span class="tok-num">1.5</span> * iqr)
+
+    outlier_list = []
+    <span class="tok-kw">for</span> nilai <span class="tok-kw">in</span> data_list:
+        <span class="tok-kw">if</span> nilai &gt; batas_atas:
+            outlier_list.append(nilai)
+
+    <span class="tok-kw">return</span> batas_atas, outlier_list
+
+<span class="tok-cm"># Uji fungsi dengan studi kasus 15 antrean:</span>
+data_antrean = [<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>, <span class="tok-num">9</span>, <span class="tok-num">10</span>, <span class="tok-num">11</span>, <span class="tok-num">12</span>, <span class="tok-num">24</span>, <span class="tok-num">38</span>]
+batas, anomali = deteksi_outlier_atas(data_antrean)
+<span class="tok-fn">print</span>(<span class="tok-str">"Batas Atas:"</span>, batas, <span class="tok-str">"| Outlier:"</span>, anomali)
+
+<span class="tok-cm"># 2. Contoh Pandas: Pisahkan populasi bimodal (.groupby) &amp; Boolean Indexing</span>
+df = pd.DataFrame({<span class="tok-str">'shift'</span>: [<span class="tok-str">'Pagi'</span>]*8 + [<span class="tok-str">'Sore'</span>]*7, <span class="tok-str">'antrean'</span>: data_antrean})
+ringkasan_shift = df.groupby(<span class="tok-str">'shift'</span>)[<span class="tok-str">'antrean'</span>].agg([<span class="tok-str">'mean'</span>, <span class="tok-str">'median'</span>, <span class="tok-str">'std'</span>])
+df_outlier = df[df[<span class="tok-str">'antrean'</span>] &gt; batas]</code></pre>
+            </div>
+          </section>
+
+          <!-- CALLOUT BOX: PENTING UNTUK DICATAT -->
+          <aside class="callout-box" data-searchable-item>
+            <div class="callout-title">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Penting untuk Dicatat
+            </div>
+            <ul class="callout-list">
+              <li>
+                Seluruh konsep di atas adalah fondasi utama <strong>Tahap 3 (EDA/Visualisasi)</strong> dan <strong>Tahap 4 (Statistik)</strong> yang wajib dikuasai sebelum melangkah ke pemodelan <em>Machine Learning</em>.
+              </li>
+              <li>
+                Langkah praktik berikutnya yang siap kamu eksekusi kapan saja adalah melengkapi dan menjalankan fungsi <code class="inline-code">deteksi_outlier_atas(data_list)</code> di <strong>Google Colab</strong> untuk menguji pemahaman sintaks <code class="inline-code">def</code>, <code class="inline-code">for</code>, <code class="inline-code">if</code>, dan <code class="inline-code">.quantile()</code> secara langsung.
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </article>
+    </section>
+
+    <!-- ======================================================================
+         SLOT UNTUK TAB HARI BERIKUTNYA (2/30, 3/30, ..., 30/30)
+         ====================================================================== -->
+
+    <footer class="hub-footer">
+      <p><strong>30 Days of Data Science — Interactive Study Cheatsheet Hub</strong> &bull; Offline-Ready Single-File Architecture</p>
+    </footer>
+  </div>
+
+  <!-- Custom Non-Blocking Toast Notification -->
+  <div id="toastBanner" class="toast-banner" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ==========================================================================
+       1. STATE & TAB NAVIGATION (KURIKULUM -> 1/30 -> 2/30 ... 30/30)
+       ========================================================================== */
+    const TOTAL_DAYS = 30;
+    const AVAILABLE_DAYS = [1]; // Hari yang sudah tersedia kontennya
+    let activeTabId = 'kurikulum';
+    let toastTimer = null;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBanner');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    function buildPrimaryTabs() {
+      const tabStrip = document.getElementById('primaryTabStrip');
+
+      for (let day = 1; day <= TOTAL_DAYS; day++) {
+        const isAvailable = AVAILABLE_DAYS.includes(day);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.role = 'tab';
+        btn.id = `tab-btn-day-${day}`;
+        btn.textContent = `${day}/30`;
+
+        if (isAvailable) {
+          btn.className = 'tab-btn tab-available';
+          btn.setAttribute('aria-selected', 'false');
+          btn.setAttribute('aria-controls', `tab-day-${day}`);
+          btn.title = `Buka Catatan Hari ${day}/30`;
+          btn.addEventListener('click', () => switchMainTab(`day-${day}`));
+        } else {
+          btn.className = 'tab-btn tab-upcoming';
+          btn.setAttribute('aria-selected', 'false');
+          btn.title = `Hari ${day}/30 — Upcoming (Belum diisi)`;
+          btn.addEventListener('click', () => {
+            showToast(`Tab ${day}/30 masih Upcoming. Kirimkan catatan Hari ${day}/30 untuk membukanya!`);
+          });
+        }
+
+        tabStrip.appendChild(btn);
+      }
+
+      // Update Day Progress Header
+      const pct = ((AVAILABLE_DAYS.length / TOTAL_DAYS) * 100).toFixed(1);
+      document.getElementById('dayProgressStat').textContent = `${AVAILABLE_DAYS.length} / ${TOTAL_DAYS} Hari`;
+      document.getElementById('dayProgressPct').textContent = `${pct}% Catatan Terisi`;
+      document.getElementById('overallProgressBar').style.width = `${pct}%`;
+    }
+
+    function switchMainTab(tabKey) {
+      activeTabId = tabKey;
+
+      // Update tab button active states
+      document.querySelectorAll('.primary-tab-strip .tab-btn').forEach(btn => {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+
+      const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('is-active');
+        activeBtn.setAttribute('aria-selected', 'true');
+      }
+
+      // Show only target panel
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.remove('is-active');
+      });
+
+      const targetPanel = document.getElementById(`tab-${tabKey}`);
+      if (targetPanel) {
+        targetPanel.classList.add('is-active');
+      }
+
+      // Update Print Active Tab button label
+      const printBtn = document.getElementById('btnPrintActiveTab');
+      if (tabKey === 'kurikulum') {
+        printBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Simpan PDF (Kurikulum)`;
+      } else {
+        const dayNum = tabKey.replace('day-', '');
+        printBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Simpan PDF (${dayNum}/30)`;
+      }
+
+      // Re-apply current search filter to the newly activated tab
+      const currentQuery = document.getElementById('searchInput').value;
+      filterActiveTabContent(currentQuery);
+    }
+
+    /* ==========================================================================
+       2. CURRICULUM PHASE ACCORDION, PHASE FILTER & PERSISTENT CHECKLIST
+       ========================================================================== */
+    const STORAGE_KEY_CHECKLIST = 'ds_30days_kurikulum_checklist_v1';
+
+    function togglePhaseCard(headerBtn) {
+      const card = headerBtn.closest('.phase-card');
+      const willOpen = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', willOpen);
+      headerBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    }
+
+    function toggleAllInActiveTab(openState) {
+      const activePanel = document.getElementById(`tab-${activeTabId}`);
+      if (!activePanel) return;
+
+      const phaseCards = activePanel.querySelectorAll('.phase-card');
+      if (phaseCards.length > 0) {
+        phaseCards.forEach(card => {
+          card.classList.toggle('is-open', openState);
+          const btn = card.querySelector('.phase-header');
+          if (btn) btn.setAttribute('aria-expanded', openState ? 'true' : 'false');
+        });
+      } else {
+        showToast(openState ? 'Seluruh bagian materi sudah ditampilkan.' : 'Tab harian ditampilkan dalam mode ringkas.');
+      }
+    }
+
+    function filterByPhase(phaseNum, pillBtn) {
+      document.querySelectorAll('#phaseFilterPills .phase-pill').forEach(p => p.classList.remove('is-active'));
+      pillBtn.classList.add('is-active');
+
+      document.querySelectorAll('.phase-card').forEach(card => {
+        const cardPhase = card.getAttribute('data-phase-card');
+        if (phaseNum === 'all' || cardPhase === phaseNum) {
+          card.style.display = '';
+          card.classList.add('is-open');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function loadChecklistState() {
+      let saved = {};
+      try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY_CHECKLIST) || '{}');
+      } catch (e) {
+        saved = {};
+      }
+
+      document.querySelectorAll('.sub-checkbox').forEach(cb => {
+        const id = cb.getAttribute('data-sub-id');
+        cb.checked = Boolean(saved[id]);
+        cb.closest('.sub-item-card').classList.toggle('is-checked', cb.checked);
+      });
+
+      updateChecklistCounter();
+    }
+
+    function handleChecklistChange() {
+      const state = {};
+      document.querySelectorAll('.sub-checkbox').forEach(cb => {
+        const id = cb.getAttribute('data-sub-id');
+        state[id] = cb.checked;
+        cb.closest('.sub-item-card').classList.toggle('is-checked', cb.checked);
+      });
+
+      try {
+        localStorage.setItem(STORAGE_KEY_CHECKLIST, JSON.stringify(state));
+      } catch (e) {
+        // Ignore storage quota errors in sandboxed iframes
+      }
+
+      updateChecklistCounter();
+    }
+
+    function updateChecklistCounter() {
+      const all = document.querySelectorAll('.sub-checkbox');
+      const checked = document.querySelectorAll('.sub-checkbox:checked');
+      document.getElementById('kurikulumProgressStat').textContent = `${checked.length} / ${all.length}`;
+    }
+
+    function resetCurriculumChecklist() {
+      document.querySelectorAll('.sub-checkbox').forEach(cb => {
+        cb.checked = false;
+        cb.closest('.sub-item-card').classList.remove('is-checked');
+      });
+      try {
+        localStorage.removeItem(STORAGE_KEY_CHECKLIST);
+      } catch (e) {}
+      updateChecklistCounter();
+      showToast('Checklist progres sub-kurikulum berhasil di-reset.');
+    }
+
+    /* ==========================================================================
+       3. REAL-TIME SEARCH FILTER (SCOPED TO ACTIVE TAB)
+       ========================================================================== */
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+    const searchStatusBar = document.getElementById('searchStatusBar');
+    const searchStatusText = document.getElementById('searchStatusText');
+
+    function filterActiveTabContent(rawQuery) {
+      const q = rawQuery.trim().toLowerCase();
+      searchClearBtn.style.display = q.length > 0 ? 'flex' : 'none';
+
+      const activePanel = document.getElementById(`tab-${activeTabId}`);
+      if (!activePanel) return;
+
+      const items = activePanel.querySelectorAll('[data-searchable-item]');
+      const phaseCards = activePanel.querySelectorAll('.phase-card');
+      let matchCount = 0;
+
+      if (!q) {
+        items.forEach(el => (el.style.display = ''));
+        phaseCards.forEach(card => (card.style.display = ''));
+        searchStatusBar.style.display = 'none';
+        return;
+      }
+
+      items.forEach(el => {
+        if (el.textContent.toLowerCase().includes(q)) {
+          el.style.display = '';
+          matchCount++;
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      // If in Kurikulum tab, hide phase cards with 0 visible sub-items unless phase title matches
+      phaseCards.forEach(card => {
+        const titleMatches = card.querySelector('.phase-title').textContent.toLowerCase().includes(q);
+        const visibleSubs = Array.from(card.querySelectorAll('[data-searchable-item]')).filter(
+          el => el.style.display !== 'none'
+        );
+
+        if (titleMatches) {
+          card.style.display = '';
+          card.classList.add('is-open');
+          card.querySelectorAll('[data-searchable-item]').forEach(el => (el.style.display = ''));
+        } else if (visibleSubs.length > 0) {
+          card.style.display = '';
+          card.classList.add('is-open');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      searchStatusBar.style.display = 'flex';
+      const tabLabel = activeTabId === 'kurikulum' ? 'Tab Kurikulum' : `Tab ${activeTabId.replace('day-', '')}/30`;
+      searchStatusText.textContent =
+        matchCount > 0
+          ? `Ditemukan ${matchCount} bagian cocok untuk "${rawQuery.trim()}" pada ${tabLabel}.`
+          : `Tidak ditemukan hasil untuk "${rawQuery.trim()}" pada ${tabLabel}.`;
+    }
+
+    function resetSearch() {
+      searchInput.value = '';
+      filterActiveTabContent('');
+      searchInput.focus();
+    }
+
+    searchInput.addEventListener('input', e => filterActiveTabContent(e.target.value));
+    searchClearBtn.addEventListener('click', resetSearch);
+
+    /* ==========================================================================
+       4. COPY CODE TO CLIPBOARD (IFRAME-SAFE execCommand)
+       ========================================================================== */
+    function copyCodeBlock(btn) {
+      const codeEl = btn.closest('.code-wrapper')?.querySelector('pre code');
+      if (!codeEl) return;
+
+      const ta = document.createElement('textarea');
+      ta.value = codeEl.innerText;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+
+      let ok = false;
+      try {
+        ok = document.execCommand('copy');
+      } catch (e) {
+        ok = false;
+      }
+      document.body.removeChild(ta);
+
+      if (ok) {
+        const prev = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '✓ Tersalin!';
+        showToast('Kode Python berhasil disalin ke clipboard!');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = prev;
+        }, 2000);
+      } else {
+        showToast('Gagal menyalin otomatis. Silakan blok kode dan tekan Ctrl+C.');
+      }
+    }
+
+    /* ==========================================================================
+       5. INTERACTIVE IQR & OUTLIER SIMULATOR (DAY 1/30)
+       ========================================================================== */
+    function computeQuantile(sorted, q) {
+      const pos = (sorted.length - 1) * q;
+      const base = Math.floor(pos);
+      const rest = pos - base;
+      if (sorted[base + 1] !== undefined) {
+        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+      }
+      return sorted[base];
+    }
+
+    function runIQRSimulation() {
+      const nums = document
+        .getElementById('iqrDataInput')
+        .value.split(/[\s,;]+/)
+        .map(v => parseFloat(v))
+        .filter(n => !isNaN(n));
+
+      if (nums.length < 4) {
+        showToast('Masukkan minimal 4 angka valid yang dipisahkan koma.');
+        return;
+      }
+
+      const sorted = [...nums].sort((a, b) => a - b);
+      const q1 = computeQuantile(sorted, 0.25);
+      const med = computeQuantile(sorted, 0.50);
+      const q3 = computeQuantile(sorted, 0.75);
+      const iqr = q3 - q1;
+      const upper = q3 + 1.5 * iqr;
+      const lower = q1 - 1.5 * iqr;
+
+      const upOut = sorted.filter(n => n > upper);
+      const lowOut = sorted.filter(n => n < lower);
+      const fmt = n => (Number.isInteger(n) ? n.toString() : n.toFixed(2));
+
+      document.getElementById('resQ1').textContent = fmt(q1);
+      document.getElementById('resMedian').textContent = fmt(med);
+      document.getElementById('resQ3').textContent = fmt(q3);
+      document.getElementById('resIQR').textContent = fmt(iqr);
+      document.getElementById('resUpper').textContent = fmt(upper);
+
+      const summary = document.getElementById('iqrSummaryText');
+      if (upOut.length === 0 && lowOut.length === 0) {
+        summary.innerHTML = `<strong>Hasil Diagnosa (n = ${sorted.length}):</strong> Tidak ditemukan outlier. Seluruh data aman di dalam pagar <code class="inline-code">[${fmt(lower)} s.d. ${fmt(upper)}]</code>.`;
+      } else {
+        const msgs = [];
+        if (upOut.length) msgs.push(`<strong>${upOut.length} outlier atas</strong> (<code class="inline-code">[${upOut.join(', ')}]</code> &gt; ${fmt(upper)})`);
+        if (lowOut.length) msgs.push(`<strong>${lowOut.length} outlier bawah</strong> (<code class="inline-code">[${lowOut.join(', ')}]</code> &lt; ${fmt(lower)})`);
+        summary.innerHTML = `<strong>Hasil Diagnosa (n = ${sorted.length}):</strong> Terdeteksi ${msgs.join(' dan ')}.`;
+      }
+    }
+
+    function resetDefaultQueueData() {
+      document.getElementById('iqrDataInput').value = '4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 11, 12, 24, 38';
+      runIQRSimulation();
+      showToast('Data studi kasus 15 antrean dimuat ulang.');
+    }
+
+    /* ==========================================================================
+       6. EXPORT PDF (ACTIVE TAB ONLY vs ALL TABS)
+       ========================================================================== */
+    const originalTitle = document.title;
+
+    function resetPrintClasses() {
+      document.body.classList.remove('print-mode-single', 'print-mode-all');
+      document.title = originalTitle;
+    }
+
+    window.addEventListener('afterprint', resetPrintClasses);
+
+    function exportActiveTabPDF() {
+      resetPrintClasses();
+      document.body.classList.add('print-mode-single');
+
+      const activePanel = document.getElementById(`tab-${activeTabId}`);
+      if (activePanel) {
+        activePanel.querySelectorAll('.phase-card').forEach(c => {
+          c.style.display = '';
+          c.classList.add('is-open');
+        });
+        activePanel.querySelectorAll('[data-searchable-item]').forEach(el => (el.style.display = ''));
+      }
+
+      const label = activeTabId === 'kurikulum' ? 'Kurikulum Komprehensif (6 Fase)' : `Catatan Harian ${activeTabId.replace('day-', '')}/30`;
+      document.getElementById('printDocSubtitle').textContent = label;
+      document.getElementById('printDocDate').textContent = new Date().toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+      document.title =
+        activeTabId === 'kurikulum'
+          ? 'Kurikulum_Komprehensif_Data_Science_6_Fase'
+          : `Data_Science_Cheatsheet_${activeTabId.replace('day-', 'Hari_')}_dari_30`;
+
+      setTimeout(() => {
+        window.print();
+        setTimeout(resetPrintClasses, 1000);
+      }, 120);
+    }
+
+    function exportAllTabsPDF() {
+      resetPrintClasses();
+      document.body.classList.add('print-mode-all');
+
+      document.querySelectorAll('.phase-card').forEach(c => {
+        c.style.display = '';
+        c.classList.add('is-open');
+      });
+      document.querySelectorAll('[data-searchable-item]').forEach(el => (el.style.display = ''));
+
+      document.getElementById('printDocSubtitle').textContent = `Kurikulum Lengkap + Catatan Harian (${AVAILABLE_DAYS.length}/30)`;
+      document.getElementById('printDocDate').textContent = new Date().toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+      document.title = '30_Days_of_Data_Science_Master_Cheatsheet';
+
+      setTimeout(() => {
+        window.print();
+        setTimeout(resetPrintClasses, 1000);
+      }, 120);
+    }
+
+    // Boot Application
+    window.addEventListener('DOMContentLoaded', () => {
+      buildPrimaryTabs();
+      loadChecklistState();
+      runIQRSimulation();
+      switchMainTab('kurikulum');
+    });
+  </script>
+</body>
+</html>
